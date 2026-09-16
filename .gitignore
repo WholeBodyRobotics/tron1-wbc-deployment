@@ -1,6 +1,6 @@
 runtime_logs/
 *.log
 .env
+*.onnx
 __pycache__/
 *.pyc
-

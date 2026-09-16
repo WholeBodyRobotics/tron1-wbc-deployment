@@ -15,6 +15,9 @@ external dependencies configured with environment variables.
 - The full runtime source tree containing `deploy_sf_tron1_arm_mujoco.py`
 - Policy files: `actor.onnx`, `contactNet.onnx`, and `gru.onnx`
 
+The launcher cannot legally redistribute vendor SDKs or policy weights. Those
+components must be obtained from their respective vendors or project owners.
+
 ## Configure
 
 Copy the template and edit all absolute paths:
@@ -24,11 +27,22 @@ cp deploy.env.example .env
 source .env
 export TRON_DEPLOY_DIR TRON_DEPLOY_ROOT FASTLIO_ROOT
 export ARX_SDK ARX_CAN_SETUP ARX_PY ARX_ENV DEPLOY_PY
+export POLICY_MODEL_DIR
 ```
 
 `TRON_DEPLOY_DIR` must point to the complete runtime source tree. This keeps
 the public launcher repository small and avoids copying private SDKs or policy
 weights into it.
+
+Run the non-destructive preflight check:
+
+```bash
+./setup.sh check
+```
+
+The checker reports missing system tools, ROS2 workspaces, vendor SDKs,
+Python imports, runtime files, and policy files. It does not install packages,
+change network settings, or move the robot.
 
 ## Run
 
