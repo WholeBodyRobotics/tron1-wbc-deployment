@@ -3,6 +3,12 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 MAIN="${SCRIPT_DIR}/start_full_wbc_stack.sh"
+ENV_FILE="${ENV_FILE:-${SCRIPT_DIR}/.env}"
+
+if [[ -f "${ENV_FILE}" ]]; then
+    # shellcheck disable=SC1090
+    source "${ENV_FILE}"
+fi
 
 usage() {
     cat <<'EOF'

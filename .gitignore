@@ -2,5 +2,7 @@ runtime_logs/
 *.log
 .env
 *.onnx
+*.pt
+*.pth
 __pycache__/
 *.pyc

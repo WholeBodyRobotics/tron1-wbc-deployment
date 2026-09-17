@@ -1,10 +1,10 @@
 # TRON1 WBC Deployment
 
-Clean launchers for the TRON1 + ARX5 whole-body controller stack.
+Deployment entrypoints and public runtime code for the TRON1 + ARX5 whole-body controller stack.
 
-This repository intentionally contains deployment entrypoints only. The WBC
-runtime, policy models, FAST-LIO workspaces, LimX SDK, ARX SDK, and ROS2 are
-external dependencies configured with environment variables.
+The WBC Python runtime, launch files, configuration, and the required robot
+URDF are included. Policy models, FAST-LIO workspaces, LimX SDK, ARX SDK, and
+ROS2 remain external dependencies configured with environment variables.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ external dependencies configured with environment variables.
 - Built Livox ROS2 and FAST-LIO workspaces
 - LimX SDK and a working TRON network connection
 - ARX SDK, `setup_arx_can.sh`, and the ARX Python environment
-- The full runtime source tree containing `deploy_sf_tron1_arm_mujoco.py`
+- The included runtime source tree containing `deploy_sf_tron1_arm_mujoco.py`
 - Policy files: `actor.onnx`, `contactNet.onnx`, and `gru.onnx`
 
 The launcher cannot legally redistribute vendor SDKs or policy weights. Those
@@ -30,9 +30,8 @@ export ARX_SDK ARX_CAN_SETUP ARX_PY ARX_ENV DEPLOY_PY
 export POLICY_MODEL_DIR
 ```
 
-`TRON_DEPLOY_DIR` must point to the complete runtime source tree. This keeps
-the public launcher repository small and avoids copying private SDKs or policy
-weights into it.
+By default the launcher uses this repository as `TRON_DEPLOY_DIR`. Set
+`TRON_DEPLOY_DIR` only when using a separate runtime checkout.
 
 Run the non-destructive preflight check:
 
@@ -81,6 +80,12 @@ Press `Ctrl+C` to stop the stack and clean up child processes.
 `--enable-output` can move the real robot. Keep the emergency stop ready,
 support the robot during tests, and verify network, joint limits, policy model,
 and coordinate frames before enabling output.
+
+## External components
+
+The repository does not redistribute vendor SDKs, hardware drivers, or policy
+weights. Obtain those components from their respective vendors or project
+owners and configure their paths in `.env`.
 
 ## License
 

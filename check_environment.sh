@@ -28,7 +28,7 @@ for command_name in bash git ip ping sudo; do
 done
 
 check_path "ROS2 setup" "${ROS_SETUP:-/opt/ros/humble/setup.bash}"
-check_path "runtime source" "${TRON_DEPLOY_DIR:-}"
+check_path "runtime source" "${TRON_DEPLOY_DIR:-${SCRIPT_DIR}}"
 check_path "FAST-LIO root" "${FASTLIO_ROOT:-}"
 check_path "Livox workspace" "${LIVOX_WS:-${FASTLIO_ROOT:-}/ros2_ws}/install/setup.bash"
 check_path "FAST-LIO workspace" "${FASTLIO_WS:-${FASTLIO_ROOT:-}/fastlio_ws}/install/setup.bash"
@@ -37,10 +37,9 @@ check_path "ARX CAN setup" "${ARX_CAN_SETUP:-}"
 check_path "ARX Python" "${ARX_PY:-}"
 check_path "Deploy Python" "${DEPLOY_PY:-}"
 
-if [[ -n "${TRON_DEPLOY_DIR:-}" ]]; then
-    check_path "WBC entrypoint" "${TRON_DEPLOY_DIR}/deploy_sf_tron1_arm_mujoco.py"
-    check_path "ground estimator" "${TRON_DEPLOY_DIR}/read_ground_height.py"
-fi
+RUNTIME_DIR="${TRON_DEPLOY_DIR:-${SCRIPT_DIR}}"
+check_path "WBC entrypoint" "${RUNTIME_DIR}/deploy_sf_tron1_arm_mujoco.py"
+check_path "ground estimator" "${RUNTIME_DIR}/read_ground_height.py"
 
 if [[ -n "${DEPLOY_PY:-}" && -x "${DEPLOY_PY}" ]]; then
     if "${DEPLOY_PY}" -c 'import numpy, scipy, onnxruntime, yaml, rclpy, limxsdk' >/dev/null 2>&1; then
